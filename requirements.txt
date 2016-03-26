@@ -1,0 +1,3 @@
+pyserial
+lxml
+cssselect
