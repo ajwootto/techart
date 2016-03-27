@@ -120,9 +120,9 @@ class SerialThread(threading.Thread):
         while not self.stopped.wait(5):
           for element in ELEMENTS:
             cur_city = CITY_LIST[current_city_index]
-            write_serial(element, 'CITY ' + cur_city)
+            write_serial(element, 'C ' + cur_city)
             value = calculate_output(float(weather_cities[cur_city][element]), MAX_ELEMENTS[element])
-            write_serial(element, value)
+            write_serial(element, "V " + str(round(value)))
           update_current_city()
 
 
@@ -137,6 +137,10 @@ serial_thread.daemon = True
 serial_thread.start()
 
 while True:
+  for com in SERIAL_COMS.keys():
+    if SERIAL_COMS[com]:
+      SERIAL_COMS[com].readline()
+
   if not weather_thread.isAlive() or not serial_thread.isAlive():
     raise Exception("WE DEAD")
 
