@@ -122,7 +122,7 @@ class SerialThread(threading.Thread):
             cur_city = CITY_LIST[current_city_index]
             write_serial(element, 'C ' + cur_city)
             value = calculate_output(float(weather_cities[cur_city][element]), MAX_ELEMENTS[element])
-            write_serial(element, "V " + str(round(value)))
+            write_serial(element, "V " + str(int(value)))
           update_current_city()
 
 
