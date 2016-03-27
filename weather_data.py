@@ -139,7 +139,7 @@ serial_thread.start()
 while True:
   for com in SERIAL_COMS.keys():
     if SERIAL_COMS[com]:
-      SERIAL_COMS[com].readline()
+      print SERIAL_COMS[com].readline()
 
   if not weather_thread.isAlive() or not serial_thread.isAlive():
     raise Exception("WE DEAD")
