@@ -81,7 +81,7 @@ def update_weather():
 
 def write_serial(element, value):
   if SERIAL_COMS[element]:
-    SERIAL_COMS[element].write(value)
+    SERIAL_COMS[element].write(value + "\n")
 
 def update_current_city():
   global current_city_index
