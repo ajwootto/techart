@@ -143,8 +143,8 @@ while True:
 
   if not weather_thread.isAlive() or not serial_thread.isAlive():
     for com in SERIAL_COMS.keys():
-    if SERIAL_COMS[com]:
-      SERIAL_COMS[com].close()
+      if SERIAL_COMS[com]:
+        SERIAL_COMS[com].close()
     raise Exception("WE DEAD")
 
 
