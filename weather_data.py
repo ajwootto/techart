@@ -16,7 +16,7 @@ current_city_index = 0
 ELEMENTS = ['rain', 'temp', 'wind', 'aqi']
 MAX_ELEMENTS = {'rain': 20, 'temp': 40, 'wind': 75, 'aqi': 150}
 
-cities = {'tokyo': '1850147', 'toronto': '6167865', 'beijing': '1816670', 'london': '2643743', 'singapore': '1880252'}
+CITY_IDS = {'tokyo': '1850147', 'toronto': '6167865', 'beijing': '1816670', 'london': '2643743', 'singapore': '1880252'}
 weather_cities = {}
 
 SERIAL_PORTS = {'rain': '/dev/ttyACM0', 'temp': '/dev/ttyACM1', 'wind': '/dev/ttyACM2', 'aqi': '/dev/ttyACM3'}
@@ -30,12 +30,12 @@ for port in SERIAL_PORTS.keys():
     SERIAL_COMS[port] = None
 
 
-for city in cities.keys():
+for city in CITY_IDS.keys():
   weather_cities[city] = {}
 
 id_string = []
-for city in cities.keys():
-  id_string.append(cities[city])
+for city in CITY_IDS.keys():
+  id_string.append(CITY_IDS[city])
 
 MAX_TEMP = 40
 MAX_PRECIP = 20
@@ -76,7 +76,7 @@ def massage_weather(weather):
 def update_weather():
   massage_weather(weather_city(','.join(id_string)))
 
-  for city in cities.keys():
+  for city in CITY_IDS.keys():
     aqi_city(city)
 
 def write_serial(element, value):
@@ -142,6 +142,9 @@ while True:
       print SERIAL_COMS[com].readline()
 
   if not weather_thread.isAlive() or not serial_thread.isAlive():
+    for com in SERIAL_COMS.keys():
+    if SERIAL_COMS[com]:
+      SERIAL_COMS[com].close()
     raise Exception("WE DEAD")
 
 
