@@ -22,14 +22,6 @@ weather_cities = {}
 SERIAL_PORTS = {'rain': '/dev/ttyACM0', 'temp': '/dev/ttyACM1', 'wind': '/dev/ttyACM2', 'aqi': '/dev/ttyACM3'}
 SERIAL_COMS = {}
 
-for port in SERIAL_PORTS.keys():
-  try:
-    SERIAL_COMS[port] = serial.Serial(SERIAL_PORTS[port], 9600)
-    write_serial(port, "E " + port)
-  except:
-    print "No Arduino Found For: " + port + " " + SERIAL_PORTS[port]
-    SERIAL_COMS[port] = None
-
 
 for city in CITY_IDS.keys():
   weather_cities[city] = {}
@@ -91,14 +83,9 @@ def update_current_city():
     current_city_index = 0
 
 
-update_weather()
 
 def calculate_output(value, max_val):
   return 100*value/max_val
-
-
-
-print weather_cities
 
 
 
@@ -128,7 +115,16 @@ class SerialThread(threading.Thread):
           update_current_city()
 
 
+for port in SERIAL_PORTS.keys():
+  try:
+    SERIAL_COMS[port] = serial.Serial(SERIAL_PORTS[port], 9600)
+    write_serial(port, "E " + port)
+  except:
+    print "No Arduino Found For: " + port + " " + SERIAL_PORTS[port]
+    SERIAL_COMS[port] = None
 
+update_weather()
+print weather_cities
 
 stop = threading.Event()
 weather_thread = WeatherThread(stop)
