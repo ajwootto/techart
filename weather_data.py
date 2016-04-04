@@ -93,7 +93,7 @@ def update_current_city():
 update_weather()
 
 def calculate_output(value, max_val):
-  return 205*value/max_val + 50
+  return 100*value/max_val
 
 
 
