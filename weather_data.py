@@ -25,6 +25,7 @@ SERIAL_COMS = {}
 for port in SERIAL_PORTS.keys():
   try:
     SERIAL_COMS[port] = serial.Serial(SERIAL_PORTS[port], 9600)
+    SERIAL_COMS[port].write("E " + port)
   except:
     print "No Arduino Found For: " + port + " " + SERIAL_PORTS[port]
     SERIAL_COMS[port] = None
@@ -120,9 +121,10 @@ class SerialThread(threading.Thread):
         while not self.stopped.wait(5):
           for element in ELEMENTS:
             cur_city = CITY_LIST[current_city_index]
-            write_serial(element, 'C ' + cur_city)
+            write_serial(element, "C " + cur_city)
             value = calculate_output(float(weather_cities[cur_city][element]), MAX_ELEMENTS[element])
-            write_serial(element, "V " + str(int(value)))
+            write_serial(element, "P " + str(int(value)))
+            write_serial(element, "V " + str(int(weather_cities[cur_city][element])))
           update_current_city()
 
 
