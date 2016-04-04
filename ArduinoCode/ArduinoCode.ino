@@ -26,6 +26,7 @@ void setup() {
 
     lcd.begin(16, 2);
     lcd.setRGB(0, 100, 0);
+    lcd.write("Initializing");
     pinMode(airPin, OUTPUT);
     pinMode(windPin, OUTPUT);
     pinMode(rainPin, OUTPUT);
@@ -82,6 +83,10 @@ void processCommand(String cmd) {
 
     if (cmd.substring(0,1) == "E") {
        element = cmd.substring(2);
+       char elm[20];
+       element.toCharArray(elm, 20);
+       lcd.clear();
+       lcd.write(elm);
     }
 }
 
