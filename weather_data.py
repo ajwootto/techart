@@ -5,6 +5,7 @@ import lxml
 import lxml.html
 import serial
 import threading
+from time import sleep
 
 open_weather_key = "48dfc67c29ac7993c20359a807ef1308"
 open_weather_base = "http://api.openweathermap.org/data/2.5/group?appid=48dfc67c29ac7993c20359a807ef1308&units=metric&id="
@@ -118,6 +119,7 @@ class SerialThread(threading.Thread):
 for port in SERIAL_PORTS.keys():
   try:
     SERIAL_COMS[port] = serial.Serial(SERIAL_PORTS[port], 9600)
+    sleep(4) 
     write_serial(port, "E " + port)
   except:
     print "No Arduino Found For: " + port + " " + SERIAL_PORTS[port]

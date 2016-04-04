@@ -86,11 +86,7 @@ void processCommand(String cmd) {
 
     if (cmd.substring(0,1) == "E") {
        element = cmd.substring(2);
-       Serial.println(element);
-       char elm[20];
-       element.toCharArray(elm, 20);
-       lcd.clear();
-       lcd.write(elm);
+       element.trim();
     }
 }
 
