@@ -121,7 +121,7 @@ class SerialThread(threading.Thread):
         while not self.stopped.wait(5):
           for element in ELEMENTS:
             cur_city = CITY_LIST[current_city_index]
-            write_serial(element, "C " + cur_city)
+            write_serial(element, "C " + cur_city.capitalize())
             value = calculate_output(float(weather_cities[cur_city][element]), MAX_ELEMENTS[element])
             write_serial(element, "P " + str(int(value)))
             write_serial(element, "V " + str(int(weather_cities[cur_city][element])))

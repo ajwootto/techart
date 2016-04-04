@@ -25,7 +25,7 @@ String element="wind";
 void setup() {
 
     lcd.begin(16, 2);
-
+    lcd.setRGB(0, 100, 0);
     pinMode(airPin, OUTPUT);
     pinMode(windPin, OUTPUT);
     pinMode(rainPin, OUTPUT);
