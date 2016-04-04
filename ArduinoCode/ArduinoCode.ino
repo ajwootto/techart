@@ -12,15 +12,15 @@ rgb_lcd lcd;
 #define LIGHT2 5
 #define LIGHT3 6
 
-double elementPercent = 0; 
-double elementVal = 0;
+int elementPercent = 0; 
+int elementVal = 0;
 
 String currentCity = ""; 
 String inBuffer = "";
 String motorString="";
 
 //Denotes element assigned to this Arduino, determing how it behaves
-String element="wind";
+String element="rain";
 
 void setup() {
 
@@ -68,6 +68,8 @@ void loop() {
 
 
 void processCommand(String cmd) {
+  Serial.println(cmd);
+
    if (cmd.substring(0,1) == "C") {
       currentCity = inBuffer.substring(2); 
       displayCity();
@@ -79,10 +81,12 @@ void processCommand(String cmd) {
 
     if (cmd.substring(0,1) == "V") {
       elementVal = cmd.substring(2).toInt();
+      displayWeather();
     }
 
     if (cmd.substring(0,1) == "E") {
        element = cmd.substring(2);
+       Serial.println(element);
        char elm[20];
        element.toCharArray(elm, 20);
        lcd.clear();
@@ -136,25 +140,31 @@ void displayWeather() {
   lcd.setCursor(0, 1);
   lcd.write("            ");
   lcd.setCursor(0, 1);
-  char value[3];
+  char value[10];
   String valString = String(elementVal);
-  valString.toCharArray(value, 3);
+  valString.toCharArray(value, 10);
   int startLoc = floor(8 - valString.length() / 2);
-  if (element == "wind") {
+  if (element.equals("wind")) {
       lcd.write(value);
       startLoc -= 2;
+      lcd.setCursor(startLoc, 1);
       lcd.write(" km/h");
-  } else if (element == "aqi") {
+  } else if (element.equals("aqi")) {
       lcd.write(value);
       startLoc -= 2;
+      lcd.setCursor(startLoc, 1);
       lcd.write(" ppm");
-  } else if (element == "rain") {
+  } else if (element.equals("rain")) {
       lcd.write(value);
       startLoc -= 1;
+      lcd.setCursor(startLoc, 1);
       lcd.write(" mm");
-  } else if (element == "temp") {
+  } else if (element.equals("temp")) {
+      lcd.setCursor(startLoc, 1);
       lcd.write(value);
       lcd.write(223);
+  } else {
+    lcd.write("No Element");
   }
 }
 

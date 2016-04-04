@@ -14,7 +14,7 @@ aqi_base_url = 'http://aqicn.org/city/tokyo'
 CITY_LIST = ['tokyo', 'toronto', 'beijing', 'london', 'singapore']
 current_city_index = 0
 ELEMENTS = ['rain', 'temp', 'wind', 'aqi']
-MAX_ELEMENTS = {'rain': 20, 'temp': 40, 'wind': 75, 'aqi': 150}
+MAX_ELEMENTS = {'rain': 20, 'temp': 70, 'wind': 75, 'aqi': 150}
 
 CITY_IDS = {'tokyo': '1850147', 'toronto': '6167865', 'beijing': '1816670', 'london': '2643743', 'singapore': '1880252'}
 weather_cities = {}
@@ -25,7 +25,7 @@ SERIAL_COMS = {}
 for port in SERIAL_PORTS.keys():
   try:
     SERIAL_COMS[port] = serial.Serial(SERIAL_PORTS[port], 9600)
-    SERIAL_COMS[port].write("E " + port)
+    write_serial(port, "E " + port)
   except:
     print "No Arduino Found For: " + port + " " + SERIAL_PORTS[port]
     SERIAL_COMS[port] = None
@@ -122,7 +122,7 @@ class SerialThread(threading.Thread):
           for element in ELEMENTS:
             cur_city = CITY_LIST[current_city_index]
             write_serial(element, "C " + cur_city.capitalize())
-            value = calculate_output(float(weather_cities[cur_city][element]), MAX_ELEMENTS[element])
+            value = calculate_output(abs(float(weather_cities[cur_city][element])), MAX_ELEMENTS[element])
             write_serial(element, "P " + str(int(value)))
             write_serial(element, "V " + str(int(weather_cities[cur_city][element])))
           update_current_city()
