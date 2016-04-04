@@ -129,7 +129,6 @@ class SerialThread(threading.Thread):
 
 
 
-
 stop = threading.Event()
 weather_thread = WeatherThread(stop)
 weather_thread.daemon = True
