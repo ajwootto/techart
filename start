@@ -1,6 +1,6 @@
 #!/bin/bash
 while ! ping -c 1 -W 1 1.2.3.4; do
   sleep 1
-end
+done
 git -C /home/pi/techart pull
 /usr/bin/python /home/pi/techart/weather_data.py
