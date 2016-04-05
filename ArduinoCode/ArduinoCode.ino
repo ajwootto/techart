@@ -2,7 +2,8 @@
 #include "rgb_lcd.h"
 rgb_lcd lcd;
 
-#define enablePin 12  // Enable Pin for motor 1
+#define enablePin1 12  // Enable Pin for motor 1
+#define enablePin2 13
 
 #define airPin 9  // Control pin 1 for motor 1
 #define windPin 10  // Control pin 2 for motor 1
@@ -32,7 +33,8 @@ void setup() {
     pinMode(airPin, OUTPUT);
     pinMode(windPin, OUTPUT);
     pinMode(rainPin, OUTPUT);
-    pinMode(enablePin, OUTPUT);
+    pinMode(enablePin1, OUTPUT);
+    pinMode(enablePin2, OUTPUT);
  
     pinMode(LIGHT1, OUTPUT);
     pinMode(LIGHT2, OUTPUT);
@@ -43,6 +45,8 @@ void setup() {
 }
 
 void loop() {
+  digitalWrite(enablePin1, HIGH);
+  digitalWrite(enablePin2, LOW);
 
   while (Serial.available() > 0) {
     char recieved = Serial.read();
@@ -65,9 +69,14 @@ void loop() {
     }
     delay(1);        // delay in between reads for stability
   }
-  
+  testMotors();
 }
 
+void testMotors(){
+  analogWrite(rainPin, 100);
+  analogWrite(windPin, 100);
+  analogWrite(airPin, 70);
+}
 
 void processCommand(String cmd) {
   Serial.println(cmd);
@@ -169,7 +178,7 @@ void performWind() {
 }
 
 void performAir() {
-  analogWrite(airPin, elementPercent*205 + 50);
+  analogWrite(airPin, elementPercent*185 + 70);
 }
 
 void performRain() {
