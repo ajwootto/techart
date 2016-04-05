@@ -1,3 +1,4 @@
 #!/bin/bash
+wget -q --tries=10 --timeout=20 --spider http://google.com
 git -C /home/pi/techart pull
 /usr/bin/python /home/pi/techart/weather_data.py

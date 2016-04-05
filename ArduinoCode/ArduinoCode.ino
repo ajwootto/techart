@@ -22,6 +22,8 @@ String motorString="";
 //Denotes element assigned to this Arduino, determing how it behaves
 String element="rain";
 
+int delayCount = 0;
+
 void setup() {
 
     lcd.begin(16, 2);
@@ -91,32 +93,30 @@ void processCommand(String cmd) {
 }
 
 void performTemp() {
+  delayCount++;
   int tempDelay = 500;
   int eachDelay = round(tempDelay/4*elementPercent);
   int allDelay = round(tempDelay*elementPercent);
-  
-  digitalWrite(LIGHT1, HIGH);
-  digitalWrite(LIGHT2, LOW);
-  digitalWrite(LIGHT3, LOW);
 
-  delay(eachDelay);
-  
-  digitalWrite(LIGHT1, LOW);
-  digitalWrite(LIGHT2, HIGH);
-  digitalWrite(LIGHT3, LOW);
-
-  delay(eachDelay);
-
-  digitalWrite(LIGHT1, LOW);
-  digitalWrite(LIGHT2, LOW);
-  digitalWrite(LIGHT3, HIGH);
-
-  delay(eachDelay);
-  
-  digitalWrite(LIGHT1, LOW);
-  digitalWrite(LIGHT2, LOW);
-  digitalWrite(LIGHT3, LOW);
-  delay(allDelay);
+  if (delayCount < eachDelay) {
+    digitalWrite(LIGHT1, HIGH);
+    digitalWrite(LIGHT2, LOW);
+    digitalWrite(LIGHT3, LOW);
+  } else if (delayCount < eachDelay * 2) {
+    digitalWrite(LIGHT1, LOW);
+    digitalWrite(LIGHT2, HIGH);
+    digitalWrite(LIGHT3, LOW);
+  } else if (delayCount < eachDelay * 3) {
+    digitalWrite(LIGHT1, LOW);
+    digitalWrite(LIGHT2, LOW);
+    digitalWrite(LIGHT3, HIGH);
+  } else if (delayCount < eachDelay * 4) {
+    digitalWrite(LIGHT1, LOW);
+    digitalWrite(LIGHT2, LOW);
+    digitalWrite(LIGHT3, LOW);
+  } else if (delayCount < eachDelay*4 + allDelay) {
+    delayCount = 0;
+  }
 }
 
 
