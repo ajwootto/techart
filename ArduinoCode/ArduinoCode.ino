@@ -141,19 +141,19 @@ void displayWeather() {
   valString.toCharArray(value, 10);
   int startLoc = floor(8 - valString.length() / 2);
   if (element.equals("wind")) {
-      lcd.write(value);
       startLoc -= 2;
       lcd.setCursor(startLoc, 1);
+      lcd.write(value);
       lcd.write(" km/h");
   } else if (element.equals("aqi")) {
-      lcd.write(value);
       startLoc -= 2;
       lcd.setCursor(startLoc, 1);
+      lcd.write(value);
       lcd.write(" ppm");
   } else if (element.equals("rain")) {
-      lcd.write(value);
       startLoc -= 1;
       lcd.setCursor(startLoc, 1);
+      lcd.write(value);
       lcd.write(" mm");
   } else if (element.equals("temp")) {
       lcd.setCursor(startLoc, 1);

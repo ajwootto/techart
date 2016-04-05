@@ -20,7 +20,7 @@ MAX_ELEMENTS = {'rain': 20, 'temp': 70, 'wind': 75, 'aqi': 150}
 CITY_IDS = {'tokyo': '1850147', 'toronto': '6167865', 'beijing': '1816670', 'london': '2643743', 'singapore': '1880252'}
 weather_cities = {}
 
-SERIAL_PORTS = {'temp': '/dev/ttyACM0', 'rain': '/dev/ttyACM1', 'wind': '/dev/ttyACM2', 'aqi': '/dev/ttyACM3'}
+SERIAL_PORTS = {'wind': '/dev/ttyACM0', 'rain': '/dev/ttyACM1', 'temp': '/dev/ttyACM2', 'aqi': '/dev/ttyACM3'}
 SERIAL_COMS = {}
 
 
