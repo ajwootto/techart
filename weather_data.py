@@ -106,7 +106,7 @@ class SerialThread(threading.Thread):
         self.stopped = event
 
     def run(self):
-        while not self.stopped.wait(15):
+        while not self.stopped.wait(5):
           for element in ELEMENTS:
             cur_city = CITY_LIST[current_city_index]
             write_serial(element, "C " + cur_city.capitalize())
