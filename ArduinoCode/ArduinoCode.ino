@@ -13,7 +13,7 @@ rgb_lcd lcd;
 #define LIGHT2 5
 #define LIGHT3 6
 
-int elementPercent = 0; 
+double elementPercent = 0; 
 int elementVal = 0;
 
 String currentCity = ""; 
@@ -57,25 +57,25 @@ void loop() {
       processCommand(inBuffer);
       inBuffer = "";
     }
-    
-    if (element == "wind") {
-      performWind();
-    } else if (element == "aqi") {
-      performAir();
-    } else if (element == "rain") {
-      performRain();
-    } else if (element == "temp") {
-      performTemp();
-    }
     delay(1);        // delay in between reads for stability
   }
-  testMotors();
+   if (element == "wind") {
+    performWind();
+    } else if (element == "aqi") {
+    performAir();
+  } else if (element == "rain") {
+    performRain();
+  } else if (element == "temp") {
+    performTemp();
+  }
+  //Serial.println(element);
+  //testMotors();
 }
 
 void testMotors(){
-  analogWrite(rainPin, 100);
+  analogWrite(rainPin, 200);
   analogWrite(windPin, 100);
-  analogWrite(airPin, 70);
+  analogWrite(airPin, 200);
 }
 
 void processCommand(String cmd) {
@@ -87,7 +87,7 @@ void processCommand(String cmd) {
     }
 
     if (cmd.substring(0,1) == "P"){
-      elementPercent = cmd.substring(2).toInt();
+      elementPercent = cmd.substring(2).toInt() / 100.0;
     }
 
     if (cmd.substring(0,1) == "V") {
@@ -103,9 +103,12 @@ void processCommand(String cmd) {
 
 void performTemp() {
   delayCount++;
-  int tempDelay = 500;
-  int eachDelay = round(tempDelay/4*elementPercent);
-  int allDelay = round(tempDelay*elementPercent);
+  int tempDelay = 20000;
+  if (elementPercent == 1) {
+    elementPercent == 0.99;
+  }
+  int eachDelay = round(tempDelay/4*(1-elementPercent));
+  int allDelay = round(tempDelay*(1-elementPercent));
 
   if (delayCount < eachDelay) {
     digitalWrite(LIGHT1, HIGH);
@@ -174,7 +177,7 @@ void displayWeather() {
 }
 
 void performWind() {
-  analogWrite(windPin, elementPercent*205 + 50); // Run in half speed
+  analogWrite(windPin, elementPercent*175 + 80); // Run in half speed
 }
 
 void performAir() {
