@@ -18,6 +18,8 @@ ELEMENTS = ['rain', 'temp', 'wind', 'aqi']
 MAX_ELEMENTS = {'rain': 20, 'temp': 70, 'wind': 75, 'aqi': 150}
 
 CITY_IDS = {'tokyo': '1850147', 'toronto': '6167865', 'beijing': '1816670', 'london': '2643743', 'singapore': '1880252', 'waterloo': '6176823'}
+JAP = {'tokyo': '東京', 'toronto': 'トロント', 'beijing': '北京', 'london': 'ロンドン', 'singapore': 'シンガポル', 'waterloo': 'ウォタル'}
+
 weather_cities = {}
 
 SERIAL_PORTS = {'wind': '/dev/ttyACM0', 'rain': '/dev/ttyACM1', 'temp': '/dev/ttyACM2', 'aqi': '/dev/ttyACM3'}
@@ -111,7 +113,7 @@ class SerialThread(threading.Thread):
         while not self.stopped.wait(15):
           for element in ELEMENTS:
             cur_city = CITY_LIST[current_city_index]
-            write_serial(element, "C " + cur_city.capitalize())
+            write_serial(element, "C " + cur_city.capitalize() + " " + JAP[cur_city])
             value = calculate_output(abs(float(weather_cities[cur_city][element])), MAX_ELEMENTS[element])
             write_serial(element, "P " + str(int(value)))
             write_serial(element, "V " + str(int(weather_cities[cur_city][element])))
