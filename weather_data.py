@@ -12,12 +12,12 @@ open_weather_base = "http://api.openweathermap.org/data/2.5/group?appid=48dfc67c
 aqi_base_url = 'http://aqicn.org/city/tokyo' 
 
 
-CITY_LIST = ['tokyo', 'toronto', 'beijing', 'london', 'singapore']
+CITY_LIST = ['tokyo', 'toronto', 'beijing', 'london', 'singapore', 'waterloo']
 current_city_index = 0
 ELEMENTS = ['rain', 'temp', 'wind', 'aqi']
 MAX_ELEMENTS = {'rain': 20, 'temp': 70, 'wind': 75, 'aqi': 150}
 
-CITY_IDS = {'tokyo': '1850147', 'toronto': '6167865', 'beijing': '1816670', 'london': '2643743', 'singapore': '1880252'}
+CITY_IDS = {'tokyo': '1850147', 'toronto': '6167865', 'beijing': '1816670', 'london': '2643743', 'singapore': '1880252', 'waterloo': '6176823'}
 weather_cities = {}
 
 SERIAL_PORTS = {'wind': '/dev/ttyACM0', 'rain': '/dev/ttyACM1', 'temp': '/dev/ttyACM2', 'aqi': '/dev/ttyACM3'}
@@ -40,6 +40,8 @@ MAX_AQI = 150
 def aqi_city(city):
   if city=='singapore':
     req = urllib2.Request('http://aqicn.org/city/' + city + "/south")
+  elif city=='waterloo':
+    req = urllib2.Request('http://aqicn.org/city/' + 'toronto')
   else:
         req = urllib2.Request('http://aqicn.org/city/' + city)
   opener = urllib2.build_opener() 
